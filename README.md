@@ -34,7 +34,7 @@
 * 요청한 리소스가 헤더에 지정된 URL로 일시적으로 이동되었음을 나타냄.
 
 ### 요구사항 5 - cookie
-* 
+* 로그인 성공 시 HTTP 응답 헤더의 status code를 302로 설정 후 Set-Cookie를 추가해서 전달
 
 ### 요구사항 6 - stylesheet 적용
 * 
