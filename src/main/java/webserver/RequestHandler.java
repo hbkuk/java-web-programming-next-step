@@ -35,18 +35,31 @@ public class RequestHandler extends Thread {
         	BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
         	
         	String line = br.readLine();
+        	log.debug(line);
         	if( line == null ) {
         		return;
         	}
         	
         	String url = HttpRequestUtils.getUrl(line);
         	
+        	int contentLength = 0;
+        	while( !"".equals(line) ) {
+        		line = br.readLine();
+        		log.debug("Header {}", line);
+        		
+        		if( line.contains("Content-Lengt")) {
+        			contentLength = Integer.parseInt( line.split(": ")[1] );
+        		}
+        	}
+        	
         	if( url.contains("/user/create")) {
-        		int index = url.indexOf("?");
-        		String queryString = url.substring((index+1));
+        		
+        		String queryString = IOUtils.readData(br, contentLength);
+        		
         		Map<String, String> params = HttpRequestUtils.parseQueryString(queryString);
         		User user = new User( params.get("userId"), params.get("password"), params.get("name"), params.get("email") );
         		log.debug( "User : {}", user );  
+        		
         		url = "/index.html";
         	}
         	
