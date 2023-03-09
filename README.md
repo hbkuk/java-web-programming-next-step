@@ -37,7 +37,8 @@
 * 로그인 성공 시 HTTP 응답 헤더의 status code를 302로 설정 후 Set-Cookie를 추가해서 전달
 
 ### 요구사항 6 - stylesheet 적용
-* 
+* CSS 파일의 응답 헤더의 Content-Type을 text/html로 보내면 웹 브라우저는 html문법으로 문서를 읽음.
+* 이를 해결하기 위해서 응답 헤더의 text/css로 보냄. 
 
 ### heroku 서버에 배포 후
 * 
