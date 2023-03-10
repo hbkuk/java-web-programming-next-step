@@ -62,8 +62,6 @@ public class RequestHandler extends Thread {
         		log.debug( "User : {}", user );
         		DataBase.addUser(user);
         		
-        		url = "/index.html";
-        		
         		DataOutputStream dos = new DataOutputStream(out);
         		response302Header(dos);
         		
