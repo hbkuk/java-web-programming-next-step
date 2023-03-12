@@ -17,8 +17,7 @@ public class HttpRequest {
 	
 	private static final Logger log = LoggerFactory.getLogger(HttpRequest.class);
 	
-	private String method;
-	private String path;
+	private RequestLine requestLine;
 	private Map<String, String> headers = new HashMap<String, String>();
 	private Map<String, String> params = new HashMap<String, String>();
 	
@@ -32,7 +31,7 @@ public class HttpRequest {
         	}
         	
         	log.debug("request Line: {}", line);
-        	processRequestLine(line);
+        	requestLine = new RequestLine(line);
         	
         	line = br.readLine();
         	
@@ -43,9 +42,11 @@ public class HttpRequest {
         		line = br.readLine();
         	}
         	
-        	if( method.equals("POST") ) {
+        	if( getMethod().equals("POST") ) {
         		String body = IOUtils.readData(br, Integer.parseInt( headers.get("Content-Length") ) );
         		params = HttpRequestUtils.parseQueryString(body);
+        	} else {
+        		params = requestLine.getParams();
         	}
 
         } catch (IOException e) {
@@ -53,30 +54,12 @@ public class HttpRequest {
         }
 	}
 	
-	private void processRequestLine( String requestLine ) {
-    	String[] tokens = requestLine.split(" ");
-    	this.method = tokens[0];
-    	
-    	if( method.equals("POST")) {
-    		path = tokens[1];
-    		return;
-    	}
-    	
-    	int index = tokens[1].indexOf("?");
-    	if( index == -1 ) {
-    		path = tokens[1];
-    	} else {
-    		path = tokens[1].substring(0, index);
-    		params = HttpRequestUtils.parseQueryString( tokens[1].substring(index+1) );
-    	}
-	}
-	
-	public String getMethod() {
-		return method;
+ 	public String getMethod() {
+		return requestLine.method;
 	}
 	
 	public String getPath() {
-		return path;
+		return requestLine.path;
 	}
 	
 	public String getParameter(String key) {

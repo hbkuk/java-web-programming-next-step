@@ -10,6 +10,7 @@ import org.junit.Test;
 
 public class RequestHandlerTest {
 	private String testDirectory = "./src/test/java/resources/";
+	
 
 	@Test
 	public void request_GET() throws Exception {
