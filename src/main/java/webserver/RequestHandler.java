@@ -28,35 +28,17 @@ public class RequestHandler extends Thread {
         	
         	HttpRequest request = new HttpRequest(in);
         	HttpResponse response = new HttpResponse(out);
-        	String url = getDefalutPath(request.getPath());
         	
-        	if( url.contains("/user/create")) {
-        		User user = new User( 
-        			request.getParameter("userId"),
-        			request.getParameter("password"),
-        			request.getParameter("name"),
-        			request.getParameter("email") );
-        		log.debug( "User : {}", user );
-        		DataBase.addUser(user);
-        		response.sendRedirect("/index.html");
-        		
-        	} else if (url.equals("/user/login")) {
-        		User user = DataBase.findUserById( request.getParameter("userId") );
-        		if( user == null ) {
-        			log.debug( "user Not Found!!" );
-        			response.sendRedirect("/user/login_failed.html");
-        		} else if ( user.getPassword().equals( request.getParameter("password")) ) {
-        			log.debug( "login Success!!" );
-        			response.addHeader("Set-Cookie", "logined=true");
-        			response.sendRedirect("/index.html");
-        		} else {
-        			log.debug( "password Mismatch!!" );
-        			response.sendRedirect("/user/login_failed.html");
-        		}
-
+        	Controller controller =
+        			RequestMapping.getController(request.getPath());
+        	if( controller == null ) {
+        		String path = getDefalutPath(request.getPath());
+        		response.forward(path);
         	} else {
-        		response.forward(url);
+        		controller.service(request, response);
         	}
+        	
+        	
         } catch (IOException e) {
             log.error(e.getMessage());
         }
