@@ -20,7 +20,8 @@
 * 요청 데이터의 첫 번째 라인에 URI(Uniform Resource Identifier)가 포함되어 있음.
 
 ### 요구사항 2 - get 방식으로 회원가입
-* 
+* HTTP GET 요청에서는 사용자가 입력한 값들이 URI에 포함됨.
+* 요청 URI에서의 요청Path와 파라미터를 구분하기 위해서 split() 메서드를 활용함.
 
 ### 요구사항 3 - post 방식으로 회원가입
 * 

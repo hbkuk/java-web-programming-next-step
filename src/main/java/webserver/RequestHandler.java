@@ -9,9 +9,13 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import model.User;
+import util.HttpRequestUtils;
 
 public class RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
@@ -30,7 +34,7 @@ public class RequestHandler extends Thread {
         	
         	BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
         	String line = br.readLine();
-        	log.debug(line);
+        	log.debug("Request Line : {}", line);
         	
         	String[] tokens = line.split(" ");
         	
@@ -39,10 +43,24 @@ public class RequestHandler extends Thread {
         			break;
         		}
         	}
+        	String[] uri = tokens[1].split("\\?");
+        	log.debug("requestURL : {} ",line);
+        	String requestPath = uri[0];
+        	String parameters = uri[1];
+        	
+        	Map<String, String> parameterMap = HttpRequestUtils.parseQueryString(parameters);
+        	
+        	User user = new User( 
+        			parameterMap.get("userId"), 
+        			parameterMap.get("password"), 
+        			parameterMap.get("name"), 
+        			parameterMap.get("email") );
+        	
+        	log.debug("User Model : {}", user.toString());
         	
             DataOutputStream dos = new DataOutputStream(out);
             
-            byte[] body = Files.readAllBytes(Paths.get("./webapp" + tokens[1]));
+            byte[] body = Files.readAllBytes(Paths.get("./webapp" + requestPath));
             
             response200Header(dos, body.length);
             responseBody(dos, body);
