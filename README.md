@@ -15,7 +15,9 @@
 * 각 요구사항을 구현하는 것이 중요한 것이 아니라 구현 과정을 통해 학습한 내용을 인식하는 것이 배움에 중요하다. 
 
 ### 요구사항 1 - http://localhost:8080/index.html로 접속시 응답
-* 
+* HTTP Header를 읽기 위해서 BufferedReader를 생성.
+* readLine() 메서드를 활용해서 라인별 HTTP 요청 정보를 읽음.
+* 요청 데이터의 첫 번째 라인에 URI(Uniform Resource Identifier)가 포함되어 있음.
 
 ### 요구사항 2 - get 방식으로 회원가입
 * 
