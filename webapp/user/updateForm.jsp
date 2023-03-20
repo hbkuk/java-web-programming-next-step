@@ -24,7 +24,7 @@
           <form name="question" method="post" action="/user/update">
               <div class="form-group">
                   <label for="userId">사용자 아이디</label>
-                  <input class="form-control" id="userId" name="userId" value="${userId}" readonly>
+                  <input class="form-control" id="userId" name="userId" value="${sessionScope.user.userId}" readonly>
               </div>
               <div class="form-group">
                   <label for="password">비밀번호</label>

@@ -8,8 +8,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import core.db.DataBase;
+import next.model.User;
 
 @WebServlet("/user/list")
 public class ListUserServlet extends HttpServlet {
@@ -17,7 +19,16 @@ public class ListUserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("users", DataBase.findAll());
+        
+    	HttpSession session = req.getSession();
+    	User user = (User) session.getAttribute("user");
+    	
+    	if( user == null ) {
+    		resp.sendRedirect("/user/login");
+    		return;
+    	}
+    	
+    	req.setAttribute("users", DataBase.findAll());
         RequestDispatcher rd = req.getRequestDispatcher("/user/list.jsp");
         rd.forward(req, resp);
     }
