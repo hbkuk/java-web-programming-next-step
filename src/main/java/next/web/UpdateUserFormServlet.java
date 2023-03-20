@@ -23,29 +23,39 @@ public class UpdateUserFormServlet extends HttpServlet{
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    	log.debug( "userid : {} ", req.getParameter("userId") );
     	
-    	User user = DataBase.findUserById(req.getParameter("userId"));
+    	if( !SessionUtils.isUserSession(req) ) {
+    		throw new NullPointerException("로그인 하세요.");
+    	}
     	
-    	if( user == null ) {
+    	if( DataBase.findUserById(req.getParameter("userId")) == null ) {
     		throw new NullPointerException("사용자를 찾을 수 없습니다.");
     	}
     	
-    	HttpSession session = req.getSession();
-    	User sessionUser = (User) session.getAttribute("user");
-    	
-    	if( !user.getUserId().equals(sessionUser.getUserId())) {
+    	if( !SessionUtils.isSameUser(req)) {
     		throw new IllegalStateException( "다른 사용자의 정보를 수정할 수 없습니다." );
-    		
     	}
     	
-    	req.setAttribute("user", user);
+    	req.setAttribute("user", SessionUtils.getUserSession(req) );
     	RequestDispatcher rd = req.getRequestDispatcher("/user/updateForm.jsp");
     	rd.forward(req, resp);
     }
     
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    	
+    	if( !SessionUtils.isUserSession(req) ) {
+    		throw new NullPointerException("로그인 하세요.");
+    	}
+    	
+    	if( DataBase.findUserById(req.getParameter("userId")) == null ) {
+    		throw new NullPointerException("사용자를 찾을 수 없습니다.");
+    	}
+    	
+    	if( !SessionUtils.isSameUser(req)) {
+    		throw new IllegalStateException( "다른 사용자의 정보를 수정할 수 없습니다." );
+    	}
+    	
     	log.debug( "userId : {} , password : {} , name : {} , email : {}  " , 
     			req.getParameter("userId"), 
     			req.getParameter("password"),

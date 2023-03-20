@@ -32,20 +32,18 @@ public class LoginServlet extends HttpServlet  {
     	
     	if( user == null ) {
     		HttpSession session = req.getSession();
-    		session.setAttribute("logined", "false");
+    		session.setAttribute("logined", false);
     		resp.sendRedirect("/user/login_failed.jsp");
-    		return;
     	}
     	
     	if( user.getPassword().equals(req.getParameter("password"))) {
     		HttpSession session = req.getSession();
-    		session.setAttribute("user", user);
-    		session.setAttribute("logined", "true");
+    		session.setAttribute("logined", true);
+    		session.setAttribute("user", DataBase.findUserById(req.getParameter("userId")));
     		resp.sendRedirect("/");
-    		
     	} else {
     		HttpSession session = req.getSession();
-    		session.setAttribute("logined", "false");
+    		session.setAttribute("logined", false);
     		resp.sendRedirect("/user/login_failed.jsp");
     	}
 	}

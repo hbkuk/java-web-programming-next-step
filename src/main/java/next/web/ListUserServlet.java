@@ -23,7 +23,7 @@ public class ListUserServlet extends HttpServlet {
     	HttpSession session = req.getSession();
     	User user = (User) session.getAttribute("user");
     	
-    	if( user == null ) {
+    	if( !SessionUtils.isUserSession(req) ) {
     		resp.sendRedirect("/user/login");
     		return;
     	}
