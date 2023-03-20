@@ -5,11 +5,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import controller.Controller;
+import controller.UserCreateController;
+import controller.UserListController;
+import controller.UserLoginController;
 import db.DataBase;
 import http.HttpRequest;
 import http.HttpResponse;
@@ -19,6 +24,7 @@ import util.HttpRequestUtils;
 public class RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
     private Socket connection;
+    
 
     public RequestHandler(Socket connectionSocket) {
         this.connection = connectionSocket;
@@ -31,79 +37,28 @@ public class RequestHandler extends Thread {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
         	
         	HttpRequest request = new HttpRequest(in);
-        	String requestURL = request.getPath();
-        	
         	HttpResponse response = new HttpResponse(out);
         	
-        	if( requestURL.contains("/user/create")) {
+        	Controller controller = 
+        			RequestMapping.getController(request.getPath());
         	
-        		User user = new User(
-        				request.getParameter("userId"),
-        				request.getParameter("password"),
-        				request.getParameter("name"),
-        				request.getParameter("email") );
-        		
-        		DataBase.addUser(user);
-        		log.debug("User Model : {}", user.toString());
-        		
-        		response.sendRedirect("/index.html");
-        		
-        	} else if( requestURL.equals("/user/login")) {
-        		
-        		User user = DataBase.findUserById( request.getParameter("userId") );
-        		
-        		if( user == null ) {
-        			response.sendRedirect("/user/login_failed.html");
-        			return;
-        		}
-        		
-        		if( user.getPassword().equals( request.getParameter("password") ) ) {
-        			response.addHeader("Set-Cookie", "logined=true");
-                    response.sendRedirect("/index.html");
-        		} else {
-        			response.sendRedirect("/user/login_failed.html");
-        		}
-        		
-        		
-        	} else if( requestURL.equals("/user/list")) {
-        		
-        		if( !isLogin(request.getHeader("Cookie")) ) {
-        			response.sendRedirect("/user/login.html");
-        			return;
-        		}
-        		
-        		Collection<User> users = DataBase.findAll();
-        		StringBuilder sb = new StringBuilder();
-        		sb.append("<table border='1'>");
-        		for( User user : users ) {
-        			sb.append("<tr>");
-        			sb.append("<td> " + user.getUserId() + "</td>");
-        			sb.append("<td> " + user.getName() + "</td>");
-        			sb.append("<td> " + user.getEmail() + "</td>");
-        			sb.append("</tr>");
-        		}
-        		sb.append("</table>");
-        		response.forwardBody(sb.toString());
-        		
+        	if( controller == null ) {
+        		String path = getDefaultPath(request.getPath());
+        		response.forward(path);
         	} else {
-        		response.forward(requestURL);
+        		controller.service(request, response);
         	}
         	
         } catch (IOException e) {
             log.error(e.getMessage());
         } catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
-    
-    private boolean isLogin(String Cookie) {
-    	Map<String, String> cookies = 
-    			HttpRequestUtils.parseCookies(Cookie);
-    	String value = cookies.get("logined");
-    	if( value == null ) {
-    		return false;
+    private String getDefaultPath( String path ) {
+    	if( path.equals("/")) {
+    		return "/index.html";
     	}
-    		return Boolean.parseBoolean(value);
-    	}
+    	return path;
+    }
 }
