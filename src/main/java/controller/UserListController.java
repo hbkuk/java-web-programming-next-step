@@ -6,6 +6,7 @@ import java.util.Map;
 import db.DataBase;
 import http.HttpRequest;
 import http.HttpResponse;
+import http.HttpSession;
 import model.User;
 import util.HttpRequestUtils;
 
@@ -13,7 +14,7 @@ public class UserListController extends AbstractCotroller {
 	
 	@Override
 	public void doGet(HttpRequest request, HttpResponse response) {
-		if( !isLogin(request.getHeader("Cookie")) ) {
+		if( !isLogin(request.getSession()) ) {
 			response.sendRedirect("/user/login.html");
 			return;
 		}
@@ -31,14 +32,11 @@ public class UserListController extends AbstractCotroller {
 		response.forwardBody(sb.toString());
 	}
 
-    private boolean isLogin(String Cookie) {
-    	Map<String, String> cookies = 
-    			HttpRequestUtils.parseCookies(Cookie);
-    	String value = cookies.get("logined");
-    	if( value == null ) {
+    private boolean isLogin(HttpSession session) {
+    	User user = (User) session.getAttribute("user");
+    	if( user == null ) {
     		return false;
     	}
-    		return Boolean.parseBoolean(value);
-    	}
-
+    		return true;
+    }
 }
