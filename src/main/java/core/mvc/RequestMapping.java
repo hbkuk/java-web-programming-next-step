@@ -13,6 +13,7 @@ import next.controller.LoginController;
 import next.controller.LogoutController;
 import next.controller.ProfileController;
 import next.controller.UpdateUserFormController;
+import next.controller.qna.DeleteQnaController;
 import next.controller.qna.QnaController;
 import next.controller.qna.QnaFormController;
 import next.controller.qna.ShowController;
@@ -40,6 +41,7 @@ public class RequestMapping {
         mappings.put("/qna/show", new ShowController());
         mappings.put("/qna/updateForm", new UpdateQnaFormController());
         mappings.put("/qna/update", new UpdateQnaController() );
+        mappings.put("/qna/delete", new DeleteQnaController() );
 
         logger.info("Initialized Request Mapping!");
     }
