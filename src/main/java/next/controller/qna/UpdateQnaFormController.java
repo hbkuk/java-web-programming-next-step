@@ -19,32 +19,20 @@ public class UpdateQnaFormController implements Controller{
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		logger.debug("questionId : {} ", req.getParameter("questionId"));
-		
-		String questionId = req.getParameter("questionId");
-		
 		QnaDao qnaDao = new QnaDao();
-		Qna qna = qnaDao.select( questionId );
-		
+		Qna qna = qnaDao.select( req.getParameter("questionId") );
 		if( qna == null ) {
 			throw new IllegalStateException("존재하지 않는 글입니다.");
 		}
-		
 		String originalWriter = qna.getWriter();
-		logger.debug("originalWriter : {}", originalWriter);
-		
 		HttpSession session = req.getSession();
-		
 		if( !UserSessionUtils.isLogined(session) ) {
 			return "redirect:/users/loginForm";
 		}
-		
 		User user = (User) session.getAttribute("user");
-		logger.debug("userName : {}", user.getUserId());
-		
 		if( !originalWriter.equals(user.getUserId()) ) {
 			throw new IllegalStateException("다른 사용자의 글을 수정할 수 없습니다.");
 		}
-		
 		req.setAttribute("question", qna);
 		return "/qna/updateForm.jsp";
 	}
