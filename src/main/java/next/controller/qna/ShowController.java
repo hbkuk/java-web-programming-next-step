@@ -1,4 +1,4 @@
-package next.controller;
+package next.controller.qna;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
