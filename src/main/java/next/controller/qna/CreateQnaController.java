@@ -10,8 +10,8 @@ import core.mvc.Controller;
 import next.dao.QnaDao;
 import next.model.Qna;
 
-public class QnaController implements Controller{
-	private static final Logger logger = LoggerFactory.getLogger(QnaController.class);
+public class CreateQnaController implements Controller{
+	private static final Logger logger = LoggerFactory.getLogger(CreateQnaController.class);
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		

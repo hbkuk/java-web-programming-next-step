@@ -13,9 +13,11 @@ import next.controller.LoginController;
 import next.controller.LogoutController;
 import next.controller.ProfileController;
 import next.controller.UpdateUserFormController;
+import next.controller.ans.CreateAnsController;
+import next.controller.ans.DeleteAnsController;
 import next.controller.qna.DeleteQnaController;
-import next.controller.qna.QnaController;
-import next.controller.qna.QnaFormController;
+import next.controller.qna.CreateQnaController;
+import next.controller.qna.CreateQnaFormController;
 import next.controller.qna.ShowController;
 import next.controller.qna.UpdateQnaController;
 import next.controller.qna.UpdateQnaFormController;
@@ -36,12 +38,18 @@ public class RequestMapping {
         mappings.put("/users/create", new CreateUserController());
         mappings.put("/users/updateForm", new UpdateUserFormController());
         mappings.put("/users/update", new UpdateUserController());
-        mappings.put("/qna/create", new QnaController());
-        mappings.put("/qna/form", new QnaFormController() );
+        
+        mappings.put("/qna/create", new CreateQnaController());
+        mappings.put("/qna/form", new CreateQnaFormController());
         mappings.put("/qna/show", new ShowController());
         mappings.put("/qna/updateForm", new UpdateQnaFormController());
-        mappings.put("/qna/update", new UpdateQnaController() );
-        mappings.put("/qna/delete", new DeleteQnaController() );
+        mappings.put("/qna/update", new UpdateQnaController());
+        mappings.put("/qna/delete", new DeleteQnaController());
+        
+        mappings.put("/ans/create", new CreateAnsController());
+        mappings.put("/ans/updateForm", null);
+        mappings.put("/ans/update", null);
+        mappings.put("/ans/delete", new DeleteAnsController());
 
         logger.info("Initialized Request Mapping!");
     }

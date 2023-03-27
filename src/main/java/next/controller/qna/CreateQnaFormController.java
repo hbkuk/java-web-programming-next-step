@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import core.mvc.Controller;
 import next.controller.UserSessionUtils;
 
-public class QnaFormController implements Controller {
+public class CreateQnaFormController implements Controller {
 	
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
