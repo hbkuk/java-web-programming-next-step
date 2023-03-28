@@ -76,7 +76,7 @@
 	                                          <a class="link-modify-article" href="/ans/updateForm?answerId=${answer.answerId}">수정</a>
 	                                      </li>
 	                                      <li>
-	                                          <form class="form-delete" action="/ans/delete" method="POST">
+	                                          <form class="form-delete" method="POST">
 	                                              <input type="hidden" name="answerId" value="${answer.answerId}">
 	                                              <button type="submit" class="link-delete-article">삭제</button>
 	                                          </form>
@@ -85,16 +85,16 @@
 	                              </div>
 	                          </article>
                           </c:forEach>
-							<div class="answerWrite">
-                            <form name="answer" method="post">
-								<input type="hidden" name="questionId" value="${question.questionId}">
-								<div class="form-group col-lg-12">
-									<textarea name="contents" id="contents" class="form-control" placeholder=""></textarea>
-								</div>
-								<input class="btn btn-success pull-right" type="submit" value="답변하기" />
-								<div class="clearfix" />
-							</form>
+						<div class="answerWrite">
+                           <form name="answer" method="post">
+							<input type="hidden" name="questionId" value="${question.questionId}">
+							<div class="form-group col-lg-12">
+								<textarea name="contents" id="contents" class="form-control" placeholder=""></textarea>
 							</div>
+							<input class="btn btn-success pull-right" type="submit" value="답변하기" />
+							<div class="clearfix" />
+						</form>
+						</div>
                       </div>
                   </div>
               </div>

@@ -34,3 +34,27 @@ function onSuccess(json, status){
 function onError(xhr, status) {
   alert("error");
 }	
+
+$(".form-delete").on("click", ".link-delete-article", deleteAnswer);
+
+function deleteAnswer(e) {
+	e.preventDefault();
+	
+	let deleteAnswerId = $(this).closest(".form-delete");
+	var queryString = deleteAnswerId.serialize();
+	
+	$.ajax({
+    type : 'post',
+    url : '/api/qna/deleteAnswer',
+    data : queryString,
+    dataType : 'json',
+    error: function(xhr, status) {
+		alert("error");
+	},
+    success: function(json, status) {
+		if( json.status ) {
+			$(this).closest("article").remove();
+		}
+	} 
+  });
+}
