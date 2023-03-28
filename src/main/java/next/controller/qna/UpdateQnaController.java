@@ -28,7 +28,7 @@ public class UpdateQnaController implements Controller {
 		User user = (User) session.getAttribute("user");
 		
 		qna.update(
-				req.getParameter("questionId"),
+				Long.parseLong(req.getParameter("questionId")),
 				user.getUserId(), 
 				req.getParameter("title"), 
 				req.getParameter("contents"));

@@ -31,7 +31,7 @@ public class CreateAnsController implements Controller {
         Ans ans = new Ans(
         		user.getUserId(),
         		req.getParameter("contents"), 
-        		req.getParameter("questionId") );
+        		Long.parseLong( req.getParameter("questionId") ));
         
         AnsDao ansDao = new AnsDao();
         ansDao.insert(ans);

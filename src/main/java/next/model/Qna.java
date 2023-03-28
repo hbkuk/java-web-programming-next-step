@@ -1,23 +1,21 @@
 package next.model;
 
+import java.util.Date;
+
 public class Qna {
-	private String questionId;
+	private long questionId;
 	private String writer;
 	private String title;
 	private String contents;
-	private String createDate;
-	private String countOfAnswer;
+	private Date createDate;
+	private int countOfAnswer;
 	
 	public Qna(String writer, String title, String contents) {
-		super();
-		this.writer = writer;
-		this.title = title;
-		this.contents = contents;
+		this(0, writer, title, contents, new Date(), 0);
 	}
 	
-	public Qna(String questionId, String writer, String title, String contents, String createDate,
-			String countOfAnswer) {
-		super();
+	public Qna(long questionId, String writer, String title, String contents, Date createDate,
+			int countOfAnswer) {
 		this.questionId = questionId;
 		this.writer = writer;
 		this.title = title;
@@ -26,17 +24,17 @@ public class Qna {
 		this.countOfAnswer = countOfAnswer;
 	}
 	
-	public void update(String questionId, String writer, String title, String contents ) {
+	public void update(long questionId, String writer, String title, String contents ) {
 		this.questionId = questionId;
 		this.writer = writer;
 		this.title = title;
 		this.contents = contents;
 	}
 	
-	public String getQuestionId() {
+	public long getQuestionId() {
 		return questionId;
 	}
-	public void setQuestionId(String questionId) {
+	public void setQuestionId(long questionId) {
 		this.questionId = questionId;
 	}
 	public String getWriter() {
@@ -57,16 +55,16 @@ public class Qna {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
-	public String getCreateDate() {
+	public Date getCreateDate() {
 		return createDate;
 	}
-	public void setCreateDate(String createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
-	public String getCountOfAnswer() {
+	public int getCountOfAnswer() {
 		return countOfAnswer;
 	}
-	public void setCountOfAnswer(String countOfAnswer) {
+	public void setCountOfAnswer(int countOfAnswer) {
 		this.countOfAnswer = countOfAnswer;
 	}
 

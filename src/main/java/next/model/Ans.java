@@ -1,16 +1,17 @@
 package next.model;
 
+import java.util.Date;
+
 public class Ans {
-	private String answerId;
+	private long answerId;
 	private String writer;
 	private String contents;
-	private String createdDate;
-	private String questionId;
+	private Date createdDate;
+	private long questionId;
 	
 	
 	
-	public Ans(String answerId, String writer, String contents, String createdDate, String questionId) {
-		super();
+	public Ans(long answerId, String writer, String contents, Date createdDate, long questionId) {
 		this.answerId = answerId;
 		this.writer = writer;
 		this.contents = contents;
@@ -18,21 +19,18 @@ public class Ans {
 		this.questionId = questionId;
 	}
 	
-	public Ans(String writer, String contents, String questionId) {
-		super();
-		this.writer = writer;
-		this.contents = contents;
-		this.questionId = questionId;
+	public Ans(String writer, String contents, long questionId) {
+		this( 0, writer, contents, new Date(), questionId);
 	}
 	
 	public void update(String contents) {
 		this.contents = contents;
 	}
 	
-	public String getAnswerId() {
+	public long getAnswerId() {
 		return answerId;
 	}
-	public void setAnswerId(String answerId) {
+	public void setAnswerId(long answerId) {
 		this.answerId = answerId;
 	}
 	public String getWriter() {
@@ -47,18 +45,22 @@ public class Ans {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
-	public String getcreatedDate() {
+	public Date getcreatedDate() {
 		return createdDate;
 	}
-	public void setcreatedDate(String createdDate) {
+	public void setcreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
-	public String getQuestionId() {
+	public long getQuestionId() {
 		return questionId;
 	}
-	public void setQuestionId(String questionId) {
+	public void setQuestionId(long questionId) {
 		this.questionId = questionId;
 	}
+	
+    public long getTimeFromCreateDate() {
+        return this.createdDate.getTime();
+    }
 	
 	@Override
 	public String toString() {

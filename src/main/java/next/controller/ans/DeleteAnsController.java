@@ -21,7 +21,7 @@ public class DeleteAnsController implements Controller {
 		logger.debug("answerId : {} ", req.getParameter("answerId"));
 		
 		AnsDao ansDao = new AnsDao();
-		Ans ans = ansDao.select(req.getParameter("answerId"));
+		Ans ans = ansDao.select(Long.parseLong(req.getParameter("answerId")));
 		if( ans == null ) {
 			throw new IllegalStateException("존재하지 않는 댓글입니다.");
 		}

@@ -1,28 +1,41 @@
 package next.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import core.jdbc.JdbcTemplate;
+import core.jdbc.KeyHolder;
+import core.jdbc.PreparedStatementCreator;
 import core.jdbc.RowMapper;
 import next.model.Ans;
 
 public class AnsDao {
 	
 	
-	public void insert( Ans ans ) {
+	public Ans insert( Ans ans ) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
-		String sql = "INSERT INTO ANSWERS (writer, contents, createdDate, questionId) VALUES (?, ?, now(), ?)";
-		jdbcTemplate.update(
-				sql, 
-				ans.getWriter(),
-				ans.getContents(),
-				ans.getQuestionId()
-		);
+		String sql = "INSERT INTO ANSWERS (writer, contents, createdDate, questionId) VALUES (?, ?, ?, ?)";
+		PreparedStatementCreator psc = new PreparedStatementCreator() {
+			@Override
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, ans.getWriter());
+				pstmt.setString(2, ans.getContents());
+				pstmt.setTimestamp(3, new Timestamp( ans.getTimeFromCreateDate()));
+				pstmt.setLong(4, ans.getQuestionId());
+				return pstmt;
+			}
+		};
+		KeyHolder holder = new KeyHolder();
+		jdbcTemplate.update(psc, holder);
+		return select( holder.getId() );
 	}
 	
-	public Ans select(String answerId ) { 
+	public Ans select(long answerId ) { 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
 		String sql = "SELECT * FROM ANSWERS WHERE answerId=?";
 		
@@ -30,17 +43,17 @@ public class AnsDao {
 			@Override
 			public Ans mapRow(ResultSet rs) throws SQLException {
 				return new Ans(
-						rs.getString("answerId"), 
+						Long.parseLong( rs.getString("answerId") ), 
 						rs.getString("writer"), 
 						rs.getString("contents"), 
-						rs.getString("createdDate"), 
-						rs.getString("questionId") );
+						rs.getTimestamp("createdDate"), 
+						Long.parseLong( rs.getString("questionId") ));
 			}
 		};
 		
 		return jdbcTemplate.queryForObject(sql, rm, answerId); 
 	};
-	public List<Ans> selectAll(String questionId) { 
+	public List<Ans> selectAll(long questionId) { 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
 		String sql = "SELECT * FROM ANSWERS WHERE questionId=? order by answerId desc";
 		
@@ -48,11 +61,11 @@ public class AnsDao {
 			@Override
 			public Ans mapRow(ResultSet rs) throws SQLException {
 				return new Ans(
-						rs.getString("answerId"), 
+						Long.parseLong( rs.getString("answerId") ), 
 						rs.getString("writer"), 
 						rs.getString("contents"), 
-						rs.getString("createdDate"), 
-						rs.getString("questionId") ); 
+						rs.getTimestamp("createdDate"), 
+						Long.parseLong( rs.getString("questionId") ));
 				};
 		};
 		return jdbcTemplate.query(sql, rm, questionId); 

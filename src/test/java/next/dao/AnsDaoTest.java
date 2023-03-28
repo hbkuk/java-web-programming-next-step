@@ -24,24 +24,24 @@ public class AnsDaoTest {
     	Ans expected = new Ans(
     			"테스터1", 
     			"테스트 내용1", 
-    			"1");
+    			1);
     	
     	AnsDao ansDao = new AnsDao();
     	ansDao.insert(expected);
-    	Ans actual = ansDao.select("6");
+    	Ans actual = ansDao.select(6);
     	
-    	assertEquals("6", actual.getAnswerId());
+    	assertEquals(6, actual.getAnswerId());
     }
     @Test
     public void selectAll() {
     	Ans ans1 = new Ans(
     			"테스터1", 
     			"테스트 내용1", 
-    			"1");
+    			1);
     	Ans ans2 = new Ans(
     			"테스터2", 
     			"테스트 내용2", 
-    			"1");
+    			1);
     	AnsDao ansDao = new AnsDao();
     	ansDao.insert(ans1);
     	ansDao.insert(ans2);
@@ -54,30 +54,30 @@ public class AnsDaoTest {
     	Ans ans1 = new Ans(
     			"테스터1", 
     			"테스트 내용1", 
-    			"1");
+    			1);
     	AnsDao ansDao = new AnsDao();
     	ansDao.insert(ans1);
     	
-    	Ans updateAns = ansDao.select("6");
+    	Ans updateAns = ansDao.select(6);
     	
     	updateAns.update("수정");
     	ansDao.update(updateAns);
     	
-    	assertEquals("수정", ansDao.select("6").getContents());
+    	assertEquals("수정", ansDao.select(6).getContents());
     }
     @Test(expected=NullPointerException.class)
     public void delete() {
     	Ans ans1 = new Ans(
     			"테스터1", 
     			"테스트 내용 6", 
-    			"1");
+    			1);
     	AnsDao ansDao = new AnsDao();
     	ansDao.insert(ans1);
     	
-    	Ans deleteAns = ansDao.select("6");
+    	Ans deleteAns = ansDao.select(6);
     	ansDao.delete(deleteAns);
     	
-    	ansDao.select("6").getContents();
-    	
+    	ansDao.select(6).getContents();
     }
+    
 }

@@ -10,6 +10,19 @@ import next.model.Qna;
 
 public class QnaDao {
 	
+	public List<Qna> selectAll( ) { 
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		String sql = "SELECT * FROM QUESTIONS";
+		
+		RowMapper<Qna> rm = new RowMapper<Qna>() {
+			@Override
+			public Qna mapRow(ResultSet rs) throws SQLException {
+				return new Qna(Long.parseLong(rs.getString("questionId")), rs.getString("writer"), rs.getString("title"),
+						rs.getString("contents"), rs.getTimestamp("createdDate"), rs.getInt("countOfAnswer") );
+			}
+		};
+		return jdbcTemplate.query(sql, rm);
+	};
 	public Qna select( String questionId ) { 
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();
 		String sql = "SELECT * FROM QUESTIONS WHERE QUESTIONID=?";
@@ -18,24 +31,11 @@ public class QnaDao {
 			@Override
 			public Qna mapRow(ResultSet rs) throws SQLException {
 				// TODO Auto-generated method stub
-				return new Qna(rs.getString("questionId"), rs.getString("writer"), rs.getString("title"),
-						rs.getString("contents"), rs.getString("createdDate"), rs.getString("countOfAnswer") );
+				return new Qna(Long.parseLong(rs.getString("questionId")), rs.getString("writer"), rs.getString("title"),
+						rs.getString("contents"), rs.getTimestamp("createdDate"), rs.getInt("countOfAnswer") );
 			}
 		};
 		return jdbcTemplate.queryForObject(sql, rm, questionId);
-	};
-	public List<Qna> selectAll( ) { 
-		JdbcTemplate jdbcTemplate = new JdbcTemplate();
-		String sql = "SELECT * FROM QUESTIONS";
-		
-		RowMapper<Qna> rm = new RowMapper<Qna>() {
-			@Override
-			public Qna mapRow(ResultSet rs) throws SQLException {
-				return new Qna(rs.getString("questionId"), rs.getString("writer"), rs.getString("title"),
-						rs.getString("contents"), rs.getString("createdDate"), rs.getString("countOfAnswer") );
-			}
-		};
-		return jdbcTemplate.query(sql, rm);
 	};
 	public void insert( Qna qna ) {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate();

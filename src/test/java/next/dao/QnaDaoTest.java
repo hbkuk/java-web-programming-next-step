@@ -51,7 +51,7 @@ public class QnaDaoTest {
     	qnaDao.insert(previousUpdateQna);
     	
     	Qna updateQna = qnaDao.select("9");
-    	updateQna.update("9", "자비지기", "테스트 제목 2", "테스트 내용 2");
+    	updateQna.update(9, "자비지기", "테스트 제목 2", "테스트 내용 2");
     	qnaDao.update(updateQna);
     	
     	assertNotEquals(qnaDao.select("9").getTitle(), updateQna.getTitle());
