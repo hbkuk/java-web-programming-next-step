@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import core.mvc.Controller;
+import core.mvc.JspView;
+import core.mvc.View;
 import next.dao.AnsDao;
 import next.dao.QnaDao;
 import next.model.Ans;
@@ -17,7 +19,7 @@ import next.model.Qna;
 public class ShowController implements Controller {
 	private static final Logger logger = LoggerFactory.getLogger(ShowController.class);
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	public View execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		logger.debug("questionId : {} ", req.getParameter("questionId"));
 		
 		QnaDao qnaDao = new QnaDao();
@@ -28,7 +30,7 @@ public class ShowController implements Controller {
 		List<Ans> answers = ansDao.selectAll(qna.getQuestionId());
 		req.setAttribute("answers", answers);
 		
-		return "/qna/show.jsp";
+		return new JspView("/qna/show.jsp");
 	}
 
 	
