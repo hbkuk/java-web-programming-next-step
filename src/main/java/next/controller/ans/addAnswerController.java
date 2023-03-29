@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import core.mvc.Controller;
 import core.mvc.JsonView;
-import core.mvc.View;
+import core.mvc.ModelAndView;
 import next.dao.AnsDao;
 import next.model.Ans;
 import next.model.User;
@@ -18,7 +18,7 @@ public class addAnswerController implements Controller {
 	private static final Logger logger = LoggerFactory.getLogger(addAnswerController.class);
 	
     @Override
-    public View execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
     	
     	HttpSession session = req.getSession();
     	User user = (User) session.getAttribute("user");
@@ -29,9 +29,8 @@ public class addAnswerController implements Controller {
         
         AnsDao answerDao = new AnsDao();
         Ans savedAnswer = answerDao.insert(answer);
-        req.setAttribute("answer", savedAnswer);
         
-        return new JsonView();
+        return new ModelAndView(new JsonView()).addModel("answer", savedAnswer);
     }
 
 }

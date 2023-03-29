@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import core.mvc.Controller;
 import core.mvc.JspView;
+import core.mvc.ModelAndView;
 import core.mvc.View;
 import next.dao.UserDao;
 import next.model.User;
@@ -12,7 +13,7 @@ import next.model.User;
 public class UpdateUserFormController implements Controller {
 
     @Override
-    public View execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String userId = req.getParameter("userId");
         UserDao userDao = new UserDao();
         User user = userDao.findByUserId(userId);
@@ -20,6 +21,6 @@ public class UpdateUserFormController implements Controller {
             throw new IllegalStateException("다른 사용자의 정보를 수정할 수 없습니다.");
         }
         req.setAttribute("user", user);
-        return new JspView("/user/updateForm.jsp");
+        return new ModelAndView( new JspView("/user/updateForm.jsp") );
     }
 }

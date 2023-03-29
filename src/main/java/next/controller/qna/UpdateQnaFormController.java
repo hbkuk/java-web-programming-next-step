@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import core.mvc.Controller;
 import core.mvc.JspView;
+import core.mvc.ModelAndView;
 import core.mvc.View;
 import next.controller.UserSessionUtils;
 import next.dao.QnaDao;
@@ -19,7 +20,7 @@ public class UpdateQnaFormController implements Controller{
 	private static final Logger logger = LoggerFactory.getLogger(ShowController.class);
 	
 	@Override
-	public View execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		logger.debug("questionId : {} ", req.getParameter("questionId"));
 		QnaDao qnaDao = new QnaDao();
 		Qna qna = qnaDao.select( req.getParameter("questionId") );
@@ -29,14 +30,14 @@ public class UpdateQnaFormController implements Controller{
 		String originalWriter = qna.getWriter();
 		HttpSession session = req.getSession();
 		if( !UserSessionUtils.isLogined(session) ) {
-			return new JspView("redirect:/users/loginForm");
+			return new ModelAndView( new JspView("redirect:/users/loginForm") );
 		}
 		User user = (User) session.getAttribute("user");
 		if( !originalWriter.equals(user.getUserId()) ) {
 			throw new IllegalStateException("다른 사용자의 글을 수정할 수 없습니다.");
 		}
 		req.setAttribute("question", qna);
-		return new JspView("/qna/updateForm.jsp");
+		return new ModelAndView( new JspView("/qna/updateForm.jsp") );
 	}
 
 }

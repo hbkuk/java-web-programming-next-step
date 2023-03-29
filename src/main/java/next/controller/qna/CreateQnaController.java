@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import core.mvc.Controller;
 import core.mvc.JspView;
+import core.mvc.ModelAndView;
 import core.mvc.View;
 import next.dao.QnaDao;
 import next.model.Qna;
@@ -15,7 +16,7 @@ import next.model.Qna;
 public class CreateQnaController implements Controller{
 	private static final Logger logger = LoggerFactory.getLogger(CreateQnaController.class);
 	@Override
-	public View execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		logger.debug("writer : {} ", req.getParameter("writer"));
 		logger.debug("title : {} ", req.getParameter("title"));
 		logger.debug("contents : {} ", req.getParameter("contents"));
@@ -28,7 +29,7 @@ public class CreateQnaController implements Controller{
 		QnaDao qnaDao = new QnaDao();
 		qnaDao.insert(qna);
 		
-		return new JspView("redirect:/");
+		return new ModelAndView( new JspView("redirect:/") );
 	}
 
 }
