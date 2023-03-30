@@ -36,7 +36,7 @@
 					<div class="article-util">
 						<ul class="article-util-list">
 							<li>
-								<a class="link-modify-article" href="#">수정</a>
+								<a class="link-modify-article" href="/qna/updateForm?questionId=${question.questionId}">수정</a>
 							</li>
 							<li>
 								<form class="form-delete" action="#" method="POST">
@@ -75,9 +75,10 @@
 												<a class="link-modify-article" href="/api/qna/updateAnswer?answerId=${answer.answerId }">수정</a>
 											</li>
 											<li>
-												<form class="form-delete" action="/api/qna/deleteAnswer" method="POST">
+												<form class="form-delete" method="post">
 													<input type="hidden" name="answerId" value="${answer.answerId }">
-													<button type="submit" class="link-delete-article">삭제</button>
+													<input type="hidden" name="questionId" value="${answer.questionId }">
+													<input name="delete-submit" class="link-delete-article" type="submit" value="삭제" />
 												</form>
 											</li>
 										</ul>
@@ -125,9 +126,10 @@
 				<a class="link-modify-article" href="/api/qna/updateAnswer/{3}">수정</a>
 			</li>
 			<li>
-				<form class="form-delete" action="/api/qna/deleteAnswer" method="POST">
+				<form class="form-delete" method="POST">
 					<input type="hidden" name="answerId" value="{4}" />
-					<button type="submit" class="link-delete-article">삭제</button>
+					<input type="hidden" name="questionId" value="{5 }">
+					<input name="delete-submit" class="link-delete-article" type="submit" value="삭제" />
 				</form>
 			</li>
 		</ul>

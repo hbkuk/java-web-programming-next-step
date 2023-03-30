@@ -68,4 +68,10 @@ public class QuestionDao {
 
         return jdbcTemplate.queryForObject(sql, rm, questionId);
     }
+    
+    public void update(Question question) {
+    	JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    	String slq = "UPDATE QUESTIONS SET TITLE = ?, CONTENTS = ? WHERE QUESTIONID = ?";
+    	jdbcTemplate.update(slq, question.getTitle(), question.getContents(), question.getQuestionId());
+    }
 }

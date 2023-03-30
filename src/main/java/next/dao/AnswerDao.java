@@ -71,9 +71,15 @@ public class AnswerDao {
         jdbcTemplate.update(sql, answerId);
     }
     
-    public void increaseComment(Answer answer) {
+    public void increaseComment(Long questionId) {
     	JdbcTemplate jdbcTemplate = new JdbcTemplate();
     	String sql = "UPDATE QUESTIONS SET countOfAnswer = countOfAnswer + 1 where questionId = ?";
-    	jdbcTemplate.update(sql, answer.getQuestionId());
+    	jdbcTemplate.update(sql, questionId);
+    }
+    
+    public void decreaseComment(Long questionId) {
+    	JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    	String sql = "UPDATE QUESTIONS SET countOfAnswer = countOfAnswer - 1 where questionId = ?";
+    	jdbcTemplate.update(sql, questionId);
     }
 }
