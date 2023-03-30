@@ -14,8 +14,8 @@ import core.jdbc.RowMapper;
 import next.model.Question;
 
 public class QuestionDao {
+	private static JdbcTemplate jdbcTemplate = new JdbcTemplate(); 
     public Question insert(Question question) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "INSERT INTO QUESTIONS " + 
                 "(writer, title, contents, createdDate, countOfAnswer) " + 
                 " VALUES (?, ?, ?, ?, 0)";
@@ -37,7 +37,6 @@ public class QuestionDao {
     }
     
     public List<Question> findAll() {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "SELECT questionId, writer, title, createdDate, countOfAnswer FROM QUESTIONS "
                 + "order by questionId desc";
 
@@ -54,7 +53,6 @@ public class QuestionDao {
     }
 
     public Question findById(long questionId) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "SELECT questionId, writer, title, contents, createdDate, countOfAnswer FROM QUESTIONS "
                 + "WHERE questionId = ?";
 
@@ -70,7 +68,6 @@ public class QuestionDao {
     }
     
     public void update(Question question) {
-    	JdbcTemplate jdbcTemplate = new JdbcTemplate();
     	String slq = "UPDATE QUESTIONS SET TITLE = ?, CONTENTS = ? WHERE QUESTIONID = ?";
     	jdbcTemplate.update(slq, question.getTitle(), question.getContents(), question.getQuestionId());
     }
