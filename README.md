@@ -9,4 +9,6 @@
 
 
 #### 7. next.web.qna package의 ShowController는 멀티 쓰레드 상황에서 문제가 발생하는 이유에 대해 설명하라.
-* 
+* 사용자는 질문 목록에서 제목을 클릭하면 해당 요청 URL(/qna/show) GET 방식으로 요청한다. DispatcherServlet을 통해서 Cotroller를 찾으면 ShowController이고, 해당 글의 ID(questionId)를 통해서 DAO 클래스를 통해 해당 모델을 가져온다.
+* 하지만, 클릭함과 동시에 해당 글이 삭제되었다면 어떻게 될까?
+* 만약 시스템 환경에 따라서, 삭제버튼이 먼저 눌렸지만, select 시간이 더 빨랐다면? 작성자는 이 글을 삭제했는데 사용자에게 보여주게 된다.

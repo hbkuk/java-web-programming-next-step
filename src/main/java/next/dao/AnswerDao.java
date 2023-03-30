@@ -70,4 +70,10 @@ public class AnswerDao {
         String sql = "DELETE FROM ANSWERS WHERE answerId = ?";
         jdbcTemplate.update(sql, answerId);
     }
+    
+    public void increaseComment(Answer answer) {
+    	JdbcTemplate jdbcTemplate = new JdbcTemplate();
+    	String sql = "UPDATE QUESTIONS SET countOfAnswer = countOfAnswer + 1 where questionId = ?";
+    	jdbcTemplate.update(sql, answer.getQuestionId());
+    }
 }

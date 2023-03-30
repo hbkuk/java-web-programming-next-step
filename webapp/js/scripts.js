@@ -21,6 +21,10 @@ function onSuccess(json, status){
   var answerTemplate = $("#answerTemplate").html();
   var template = answerTemplate.format(answer.writer, new Date(answer.createdDate), answer.contents, answer.answerId, answer.answerId);
   $(".qna-comment-slipp-articles").prepend(template);
+  
+  let target = $(".qna-comment-count").children().text()
+  let increaCount = parseInt( target, 10 ) + 1;
+   $(".qna-comment-count").children().text(increaCount);
 }
 
 function onError(xhr, status) {

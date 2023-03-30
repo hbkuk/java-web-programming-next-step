@@ -17,8 +17,8 @@ public class QuestionDao {
     public Question insert(Question question) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "INSERT INTO QUESTIONS " + 
-                "(writer, title, contents, createdDate) " + 
-                " VALUES (?, ?, ?, ?)";
+                "(writer, title, contents, createdDate, countOfAnswer) " + 
+                " VALUES (?, ?, ?, ?, 0)";
         PreparedStatementCreator psc = new PreparedStatementCreator() {
             @Override
             public PreparedStatement createPreparedStatement(Connection con) throws SQLException {

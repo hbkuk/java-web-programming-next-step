@@ -23,6 +23,7 @@ public class AddAnswerController extends AbstractController {
         log.debug("answer : {}", answer);
 
         Answer savedAnswer = answerDao.insert(answer);
+        answerDao.increaseComment(savedAnswer);
         return jsonView().addObject("answer", savedAnswer);
     }
 }
