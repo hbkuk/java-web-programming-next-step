@@ -7,7 +7,7 @@ import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 import next.dao.QuestionDao;
 
-public class ListQuestionController extends AbstractController {
+public class ApiListQuestionController extends AbstractController {
 	private QuestionDao questionDao = QuestionDao.getInstance();
 	@Override
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
