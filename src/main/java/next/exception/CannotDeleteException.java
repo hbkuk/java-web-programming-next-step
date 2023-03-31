@@ -1,6 +1,6 @@
 package next.exception;
 
-public class CannotDeleteException extends RuntimeException {
+public class CannotDeleteException extends Exception {
 
 	public CannotDeleteException() {
 		super();

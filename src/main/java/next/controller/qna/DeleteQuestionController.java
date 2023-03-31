@@ -25,7 +25,7 @@ public class DeleteQuestionController extends AbstractController {
 			qnaService.deleteQuestion(request);
 			return jspView("redirect:/");
 		} catch (CannotDeleteException e) {
-			return jspView("/qna/show.jsp")
+			return jspView("redirect:/qna/show.jsp")
 					.addObject("question", questionDao.findById(questionId))
 					.addObject("answers", answerDao.findAllByQuestionId(questionId))
 					.addObject("errorMessage", e.getMessage());
