@@ -12,7 +12,7 @@ import next.model.Question;
 import next.model.User;
 
 public class UpdateQuestionFormController extends AbstractController {
-	QuestionDao questionDao = new QuestionDao();
+	private QuestionDao questionDao = QuestionDao.getInstance();
 	@Override
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if(!UserSessionUtils.isLogined(request.getSession())) {

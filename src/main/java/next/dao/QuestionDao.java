@@ -15,6 +15,12 @@ import next.model.Question;
 
 public class QuestionDao {
 	private JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
+	private static QuestionDao questionDao = new QuestionDao();
+	
+	private QuestionDao() {}
+	public static QuestionDao getInstance() {
+		return questionDao;
+	}
 	
     public Question insert(Question question) {
         String sql = "INSERT INTO QUESTIONS " + 

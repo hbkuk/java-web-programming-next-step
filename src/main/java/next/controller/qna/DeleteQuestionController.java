@@ -16,8 +16,8 @@ import next.model.Question;
 import next.model.User;
 
 public class DeleteQuestionController extends AbstractController {
-	QuestionDao questionDao = new QuestionDao();
-	AnswerDao answerDao = new AnswerDao();
+	private QuestionDao questionDao = QuestionDao.getInstance();
+	private AnswerDao answerDao = AnswerDao.getInstance();
 	@Override
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if( !UserSessionUtils.isLogined(request.getSession()) ) {

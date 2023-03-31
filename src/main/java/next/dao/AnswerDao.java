@@ -15,6 +15,13 @@ import core.jdbc.RowMapper;
 
 public class AnswerDao {
 	private JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
+	private static AnswerDao answerDao = new AnswerDao();
+	
+	private AnswerDao () {}
+	
+	public static AnswerDao getInstance() {
+		return answerDao;
+	}
 	
     public Answer insert(Answer answer) {
         String sql = "INSERT INTO ANSWERS (writer, contents, createdDate, questionId) VALUES (?, ?, ?, ?)";
