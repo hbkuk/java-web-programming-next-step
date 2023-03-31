@@ -13,6 +13,9 @@
 <div class="container" id="main">
 	<div class="col-md-12 col-sm-12 col-lg-10 col-lg-offset-1">
 		<div class="panel panel-default">
+			<c:if test="${not empty errorMessage}">
+            	<div class="alert alert-danger" role="alert">${errorMessage}</div>
+            </c:if>	
 			<header class="qna-header">
 				<h2 class="qna-title">${question.title}</h2>
 			</header>
