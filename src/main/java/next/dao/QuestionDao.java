@@ -68,7 +68,12 @@ public class QuestionDao {
     }
     
     public void update(Question question) {
-    	String slq = "UPDATE QUESTIONS SET TITLE = ?, CONTENTS = ? WHERE QUESTIONID = ?";
-    	jdbcTemplate.update(slq, question.getTitle(), question.getContents(), question.getQuestionId());
+    	String sql = "UPDATE QUESTIONS SET TITLE = ?, CONTENTS = ? WHERE QUESTIONID = ?";
+    	jdbcTemplate.update(sql, question.getTitle(), question.getContents(), question.getQuestionId());
+    }
+    
+    public void delete(long question) {
+    	String sql = "DELETE FROM QUESTIONS WHERE QUESTIONID = ?";
+    	jdbcTemplate.update(sql, question);
     }
 }
