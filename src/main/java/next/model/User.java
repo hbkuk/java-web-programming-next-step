@@ -46,6 +46,10 @@ public class User {
     public boolean isSameUser(User user) {
         return userId.equals(user.userId);
     }
+    
+    public boolean isSameUser(String userId) {
+        return userId.equals(userId);
+    }
 
     @Override
     public int hashCode() {

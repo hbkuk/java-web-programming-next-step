@@ -13,28 +13,18 @@ import next.model.User;
 
 public class UpdateQuestionFormController extends AbstractController {
 	QuestionDao questionDao = new QuestionDao();
-	Question question;
-	HttpSession session;
-	User user;
 	@Override
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		session = request.getSession();
-		if(!UserSessionUtils.isLogined(session)) {
+		if(!UserSessionUtils.isLogined(request.getSession())) {
 			throw new IllegalAccessError("로그인 정보가 없습니다.");
 		}
-		
 		Long questionId = Long.parseLong(request.getParameter("questionId"));
 		
-		question = questionDao.findById(questionId);
-		user = UserSessionUtils.getUserFromSession(session);
-		
-		if( !question.getWriter().equals(user.getUserId())) {
+		Question question = questionDao.findById(questionId);
+		if( !question.isSameUser(UserSessionUtils.getUserFromSession(request.getSession()))) {
 			throw new IllegalAccessError("다른 사용자의 글을 수정할 수 없습니다."); 
 		}
-		
-		ModelAndView mav = jspView("/qna/updateForm.jsp");
-		mav.addObject("question", question);
-		return mav;
+		return jspView("/qna/updateForm.jsp").addObject("question", question);
 	}
 
 }

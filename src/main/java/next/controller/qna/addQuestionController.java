@@ -16,7 +16,6 @@ import next.model.User;
 public class addQuestionController extends AbstractController{
 	private static final Logger log = LoggerFactory.getLogger(addQuestionController.class);
 	private QuestionDao questionDao = new QuestionDao();
-	private Question question;
 	
 	@Override
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -24,10 +23,10 @@ public class addQuestionController extends AbstractController{
 			return jspView("redirect:/users/loginForm");
 		}
 		User user = UserSessionUtils.getUserFromSession(request.getSession());
-		question = new Question(
-				user.getUserId(), 
-				request.getParameter("title"), 
-				request.getParameter("contents"));
+		Question question = new Question(
+						user.getUserId(), 
+						request.getParameter("title"), 
+						request.getParameter("contents"));
 		questionDao.insert(question);
 		return jspView("redirect:/");
 	}
