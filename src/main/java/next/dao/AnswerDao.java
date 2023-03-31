@@ -14,7 +14,8 @@ import core.jdbc.PreparedStatementCreator;
 import core.jdbc.RowMapper;
 
 public class AnswerDao {
-	private static JdbcTemplate jdbcTemplate = new JdbcTemplate(); 
+	private JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
+	
     public Answer insert(Answer answer) {
         String sql = "INSERT INTO ANSWERS (writer, contents, createdDate, questionId) VALUES (?, ?, ?, ?)";
         PreparedStatementCreator psc = new PreparedStatementCreator() {
@@ -35,7 +36,6 @@ public class AnswerDao {
     }
 
     public Answer findById(long answerId) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "SELECT answerId, writer, contents, createdDate, questionId FROM ANSWERS WHERE answerId = ?";
 
         RowMapper<Answer> rm = new RowMapper<Answer>() {
@@ -50,7 +50,6 @@ public class AnswerDao {
     }
 
     public List<Answer> findAllByQuestionId(long questionId) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "SELECT answerId, writer, contents, createdDate FROM ANSWERS WHERE questionId = ? "
                 + "order by answerId desc";
 
@@ -66,25 +65,21 @@ public class AnswerDao {
     }
 
     public void delete(Long answerId) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "DELETE FROM ANSWERS WHERE answerId = ?";
         jdbcTemplate.update(sql, answerId);
     }
     
     public void deleteAll(Long questionId) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
         String sql = "DELETE FROM ANSWERS WHERE questionId = ?";
         jdbcTemplate.update(sql, questionId);
     }
     
     public void increaseComment(Long questionId) {
-    	JdbcTemplate jdbcTemplate = new JdbcTemplate();
     	String sql = "UPDATE QUESTIONS SET countOfAnswer = countOfAnswer + 1 where questionId = ?";
     	jdbcTemplate.update(sql, questionId);
     }
     
     public void decreaseComment(Long questionId) {
-    	JdbcTemplate jdbcTemplate = new JdbcTemplate();
     	String sql = "UPDATE QUESTIONS SET countOfAnswer = countOfAnswer - 1 where questionId = ?";
     	jdbcTemplate.update(sql, questionId);
     }
