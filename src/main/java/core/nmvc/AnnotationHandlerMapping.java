@@ -16,7 +16,7 @@ import core.annotation.ControllerScanner;
 import core.annotation.RequestMapping;
 import core.annotation.RequestMethod;
 
-public class AnnotationHandlerMapping {
+public class AnnotationHandlerMapping implements HandlerMapping{
 	private static final Logger log = LoggerFactory.getLogger(AnnotationHandlerMapping.class);
 	
 	private Object[] basePackage;
@@ -28,6 +28,7 @@ public class AnnotationHandlerMapping {
 		this.basePackage = basePackage;
 	}
 	
+	@Override
 	public HandlerExecution getHandler( HttpServletRequest request ) {
 		String requestUri = request.getRequestURI();
 		RequestMethod rm = RequestMethod.valueOf(request.getMethod().toUpperCase());
