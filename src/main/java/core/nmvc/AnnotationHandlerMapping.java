@@ -6,24 +6,35 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.reflections.ReflectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import core.annotation.ControllerScanner;
 import core.annotation.RequestMapping;
+import core.annotation.RequestMethod;
 
-public class AnnotataionHandlerMapping {
-	private static final Logger log = LoggerFactory.getLogger(AnnotataionHandlerMapping.class);
+public class AnnotationHandlerMapping {
+	private static final Logger log = LoggerFactory.getLogger(AnnotationHandlerMapping.class);
 	
 	private Object[] basePackage;
 	
 	private Map<HandlerKey, HandlerExecution> handlerExecutions =
 				new HashMap<>();
 	
-	public AnnotataionHandlerMapping(Object...basePackage ) {
+	public AnnotationHandlerMapping(Object...basePackage ) {
 		this.basePackage = basePackage;
 	}
+	
+	public HandlerExecution getHandler( HttpServletRequest request ) {
+		String requestUri = request.getRequestURI();
+		RequestMethod rm = RequestMethod.valueOf(request.getMethod().toUpperCase());
+		
+		log.debug( "RequestURI : {}, RequestMethod : {} ", requestUri, rm);
+		return handlerExecutions.get(new HandlerKey(requestUri, rm));
+	};
 	
 	public void initialize() {
 		ControllerScanner controllerScanner = new ControllerScanner(basePackage);
@@ -50,5 +61,4 @@ public class AnnotataionHandlerMapping {
 		}
 		return requestMappingMethods; 
 	}
-	
 }
