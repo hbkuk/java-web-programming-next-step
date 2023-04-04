@@ -9,13 +9,14 @@ import org.slf4j.LoggerFactory;
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 import next.controller.UserSessionUtils;
+import next.dao.JdbcQuestionDao;
 import next.dao.QuestionDao;
 import next.model.Question;
 import next.model.User;
 
 public class addQuestionController extends AbstractController{
 	private static final Logger log = LoggerFactory.getLogger(addQuestionController.class);
-	private QuestionDao questionDao = QuestionDao.getInstance();
+	private QuestionDao jdbcQuestionDao = JdbcQuestionDao.getInstance();
 	
 	@Override
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -27,7 +28,7 @@ public class addQuestionController extends AbstractController{
 						user.getUserId(), 
 						request.getParameter("title"), 
 						request.getParameter("contents"));
-		questionDao.insert(question);
+		jdbcQuestionDao.insert(question);
 		return jspView("redirect:/");
 	}
 	

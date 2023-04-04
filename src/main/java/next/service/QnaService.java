@@ -21,17 +21,17 @@ public class QnaService {
 	
 	private static QnaService qnaService; 
 	
-	private QuestionDao questionDao;
-	private AnswerDao answerDao;
+	private QuestionDao jdbcQuestionDao;
+	private AnswerDao jdbcAnswerDao;
 	
-	private QnaService( QuestionDao questionDao, AnswerDao answerDao ) {
-		this.questionDao = questionDao;
-		this.answerDao = answerDao;
+	private QnaService( QuestionDao jdbcQuestionDao, AnswerDao jdbcAnswerDao ) {
+		this.jdbcQuestionDao = jdbcQuestionDao;
+		this.jdbcAnswerDao = jdbcAnswerDao;
 	}
 	
-	public static QnaService getInstance( QuestionDao questionDao, AnswerDao answerDao) {
+	public static QnaService getInstance( QuestionDao jdbcQuestionDao, AnswerDao jdbcAnswerDao) {
 		if( qnaService == null ) {
-			qnaService = new QnaService(questionDao, answerDao);
+			qnaService = new QnaService(jdbcQuestionDao, jdbcAnswerDao);
 		}
 		return qnaService;
 	}
@@ -39,7 +39,7 @@ public class QnaService {
 	public void deleteQuestion(HttpServletRequest request) throws CannotDeleteException {
 		
 		Long questionId = Long.parseLong( request.getParameter("questionId") );
-		Question question = questionDao.findById(questionId);
+		Question question = jdbcQuestionDao.findById(questionId);
 		if( question == null ) {
 			logger.debug("situation : {}", "존재하지 않는 글, 삭제 X");
 			throw new CannotDeleteException("존재하지 않는 글입니다.");
@@ -51,10 +51,10 @@ public class QnaService {
 			throw new CannotDeleteException("다른 사용자가 작성한 글입니다.");
 		}
 		
-		List<Answer> answers = answerDao.findAllByQuestionId(question.getQuestionId());
+		List<Answer> answers = jdbcAnswerDao.findAllByQuestionId(question.getQuestionId());
 		if( answers.isEmpty() ) {
 			logger.debug("situation : {}", "답변이 없는 글, 삭제 O");
-			questionDao.delete(questionId);
+			jdbcQuestionDao.delete(questionId);
 			return;
 		}
 		
@@ -72,6 +72,6 @@ public class QnaService {
 			throw new CannotDeleteException("다른 사용자가 작성한 댓글이 있습니다.");
 		}
 		
-		questionDao.delete(questionId);
+		jdbcQuestionDao.delete(questionId);
 	}
 }

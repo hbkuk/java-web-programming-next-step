@@ -7,12 +7,13 @@ import javax.servlet.http.HttpSession;
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 import next.controller.UserSessionUtils;
+import next.dao.JdbcQuestionDao;
 import next.dao.QuestionDao;
 import next.model.Question;
 import next.model.User;
 
 public class UpdateQuestionFormController extends AbstractController {
-	private QuestionDao questionDao = QuestionDao.getInstance();
+	private QuestionDao jdbcQuestionDao = JdbcQuestionDao.getInstance();
 	@Override
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		if(!UserSessionUtils.isLogined(request.getSession())) {
@@ -20,7 +21,7 @@ public class UpdateQuestionFormController extends AbstractController {
 		}
 		Long questionId = Long.parseLong(request.getParameter("questionId"));
 		
-		Question question = questionDao.findById(questionId);
+		Question question = jdbcQuestionDao.findById(questionId);
 		if( !question.isSameUser(UserSessionUtils.getUserFromSession(request.getSession()))) {
 			throw new IllegalAccessError("다른 사용자의 글을 수정할 수 없습니다."); 
 		}

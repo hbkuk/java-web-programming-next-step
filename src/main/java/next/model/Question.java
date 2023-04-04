@@ -29,9 +29,9 @@ public class Question {
         this.countOfComment = countOfComment;
     }
     
-    public void update( String title, String contents ) {
-        this.title = title;
-        this.contents = contents;
+    public void update( Question newQuesion ) {
+        this.title = newQuesion.getTitle();
+        this.contents = newQuesion.getContents();
     }
 
     public long getQuestionId() {

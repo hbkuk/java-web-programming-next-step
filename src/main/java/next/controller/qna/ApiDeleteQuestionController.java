@@ -6,15 +6,15 @@ import javax.servlet.http.HttpServletResponse;
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 import next.controller.UserSessionUtils;
-import next.dao.AnswerDao;
-import next.dao.QuestionDao;
+import next.dao.JdbcAnswerDao;
+import next.dao.JdbcQuestionDao;
 import next.exception.CannotDeleteException;
 import next.model.Result;
 import next.service.QnaService;
 
 public class ApiDeleteQuestionController extends AbstractController {
 	private QnaService qnaService = QnaService.getInstance(
-				QuestionDao.getInstance(), AnswerDao.getInstance());
+				JdbcQuestionDao.getInstance(), JdbcAnswerDao.getInstance());
 	
 	@Override
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

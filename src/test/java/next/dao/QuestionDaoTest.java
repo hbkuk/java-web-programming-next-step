@@ -24,8 +24,8 @@ public class QuestionDaoTest {
     @Test
     public void crud() {
         Question question = new Question("writer", "title", "contents");
-        QuestionDao questionDao = QuestionDao.getInstance();
-        Question savedQuestion = questionDao.insert(question);
+        QuestionDao jdbcQuestionDao = JdbcQuestionDao.getInstance();
+        Question savedQuestion = jdbcQuestionDao.insert(question);
         log.debug("question : {}", savedQuestion);
     }
 

@@ -5,13 +5,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
+import next.dao.JdbcQuestionDao;
 import next.dao.QuestionDao;
 
 public class ApiListQuestionController extends AbstractController {
-	private QuestionDao questionDao = QuestionDao.getInstance();
+	private QuestionDao jdbcQuestionDao = JdbcQuestionDao.getInstance();
 	@Override
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return jsonView().addObject("questions", questionDao.findAll());
+		return jsonView().addObject("questions", jdbcQuestionDao.findAll());
 	}
 
 }
