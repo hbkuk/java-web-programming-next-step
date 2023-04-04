@@ -12,11 +12,13 @@ import next.exception.CannotDeleteException;
 import next.service.QnaService;
 
 public class DeleteQuestionController extends AbstractController {
-	private QnaService qnaService = QnaService.getInstance();
-	private QuestionDao questionDao = QuestionDao.getInstance();
-	private AnswerDao answerDao = AnswerDao.getInstance();
+	private QnaService qnaService = QnaService.getInstance(
+			QuestionDao.getInstance(), AnswerDao.getInstance());
 	@Override
 	public ModelAndView execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		QuestionDao questionDao = QuestionDao.getInstance();
+		AnswerDao answerDao = AnswerDao.getInstance();
+		
 		Long questionId = Long.parseLong( request.getParameter("questionId") );
 		if( !UserSessionUtils.isLogined(request.getSession()) ) {
 			return jspView("redirect:/users/login");
