@@ -26,9 +26,10 @@ public class UpdateQuestionController extends AbstractController{
 			throw new IllegalAccessError("다른 사용자의 글을 수정할 수 없습니다."); 
 		}
 		
-		question.update(
-				request.getParameter("title"), 
-				request.getParameter("contents"));
+        Question newQuestion = new Question(question.getWriter(), request.getParameter("title"),
+        		request.getParameter("contents"));
+		
+		question.update(newQuestion);
 		jdbcQuestionDao.update(question);
 		
 		return jspView("redirect:/");
