@@ -7,8 +7,13 @@ import java.util.Map;
 import java.util.Set;
 
 import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import core.nmvc.MyController;
 
 public class ControllerScanner {
+	private static final Logger log = LoggerFactory.getLogger(ControllerScanner.class);
 	private Reflections reflections;
 	
 	public ControllerScanner( Object...basePackage) {
@@ -28,7 +33,7 @@ public class ControllerScanner {
 				Constructor<?> constructor = clazz.getConstructor();
 				controllers.put(clazz, constructor.newInstance() );
 			} catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-				e.printStackTrace();
+				log.error( e.getMessage() );
 			}
 		}
 		return controllers;
