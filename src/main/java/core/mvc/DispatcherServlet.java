@@ -13,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.Lists;
+
+import core.annotation.RequestMapping;
 import core.nmvc.AnnotationHandlerMapping;
+import core.nmvc.HandlerAdapter;
 import core.nmvc.HandlerExecution;
 import core.nmvc.HandlerMapping;
 
@@ -22,15 +26,19 @@ public class DispatcherServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);
     
-    private List<HandlerMapping> mappings = new ArrayList<>();
+    private List<HandlerMapping> mappings = Lists.newArrayList();
+    private List<HandlerAdapter> handlerAdapters = new ArrayList<>();
     
     @Override
     public void init() throws ServletException {
+    	LegacyHandlerMapping lm = new LegacyHandlerMapping();
     	AnnotationHandlerMapping am = new AnnotationHandlerMapping("next.controller");
+    	
+    	lm.initMapping();
     	am.initialize();
     	
-    	mappings.add(am);
-    	
+    	handlerAdapters.add( new ControllerHandlerAdapter() );
+    	handlerAdapters.add( new HandlerExecutionHandlerAdapter() );
     }
 
     @Override
@@ -50,11 +58,12 @@ public class DispatcherServlet extends HttpServlet {
     }
 
 	private ModelAndView execute(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
-		if( handler instanceof Controller ) {
-			return ((Controller) handler).execute(req, resp);
-		} else {
-			return ((HandlerExecution) handler).handle(req, resp);
-		}
+        for (HandlerAdapter handlerAdapter : handlerAdapters) {
+            if (handlerAdapter.supports(handler)) {
+                return handlerAdapter.handle(req, resp, handler);
+            }
+        }
+        return null;
 	}
 
 	private Object getHandler(HttpServletRequest req) {
