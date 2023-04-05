@@ -35,8 +35,7 @@ public class HttpRequest {
     	}
     	
     	if( this.method.equals("GET")) {
-    		int index = tokens[1].indexOf("\\?");
-    		
+    		int index = tokens[1].indexOf(63);
     		if( index == -1 ) {
     			this.path = tokens[1];
     		} else {
