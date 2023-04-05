@@ -26,13 +26,9 @@ public class DispatcherServlet extends HttpServlet {
     
     @Override
     public void init() throws ServletException {
-    	LegacyHandlerMapping lm = new LegacyHandlerMapping();
-    	lm.initMapping();
-    	
-    	AnnotationHandlerMapping am = new AnnotationHandlerMapping("core.nmvc");
+    	AnnotationHandlerMapping am = new AnnotationHandlerMapping("next.controller");
     	am.initialize();
     	
-    	mappings.add(lm);
     	mappings.add(am);
     	
     }
