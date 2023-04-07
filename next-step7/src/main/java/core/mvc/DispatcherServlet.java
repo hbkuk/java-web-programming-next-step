@@ -15,10 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 
-import core.annotation.RequestMapping;
 import core.nmvc.AnnotationHandlerMapping;
-import core.nmvc.HandlerAdapter;
-import core.nmvc.HandlerExecution;
 import core.nmvc.HandlerMapping;
 
 @WebServlet(name = "dispatcher", urlPatterns = "/", loadOnStartup = 1)

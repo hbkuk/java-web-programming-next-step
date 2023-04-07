@@ -15,12 +15,15 @@ public class QnaService {
     private QuestionDao questionDao = QuestionDao.getInstance();
     private AnswerDao answerDao = AnswerDao.getInstance();
 
-    private QnaService() {
+    private QnaService( QuestionDao questionDao, AnswerDao answerDao) {
+    	this.questionDao = questionDao;
+    	this.answerDao = answerDao;
     }
 
-    public static QnaService getInstance() {
+    public static QnaService getInstance( QuestionDao questionDao, 
+    										AnswerDao answerDao ) {
         if (qnaService == null) {
-            qnaService = new QnaService();
+            qnaService = new QnaService( questionDao, answerDao );
         }
         return qnaService;
     }
