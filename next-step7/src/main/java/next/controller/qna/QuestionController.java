@@ -29,10 +29,13 @@ import next.util.UserSessionUtils;
 @Controller
 public class QuestionController extends AbstractController {
     private static final Logger log = LoggerFactory.getLogger(QuestionController.class);
-
+    private QnaService qnaService;
     private QuestionDao questionDao = JdbcQuestionDao.getInstance();
     private AnswerDao answerDao = JdbcAnswerDao.getInstance();
-    private QnaService qnaService = QnaService.getInstance(questionDao, answerDao);
+    
+    public QuestionController( QnaService qnaService ) {
+    	this.qnaService = qnaService;
+	}
     
     @RequestMapping(value="/api/qna/addAnswer", method=RequestMethod.POST)
     public ModelAndView addAnswerApi(HttpServletRequest req, HttpServletResponse response) throws Exception {
