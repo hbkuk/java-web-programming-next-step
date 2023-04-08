@@ -16,6 +16,8 @@ import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 import next.CannotDeleteException;
 import next.dao.AnswerDao;
+import next.dao.JdbcAnswerDao;
+import next.dao.JdbcQuestionDao;
 import next.dao.QuestionDao;
 import next.model.Answer;
 import next.model.Question;
@@ -28,9 +30,9 @@ import next.util.UserSessionUtils;
 public class QuestionController extends AbstractController {
     private static final Logger log = LoggerFactory.getLogger(QuestionController.class);
 
-    private QnaService qnaService = QnaService.getInstance();
-    private QuestionDao questionDao = QuestionDao.getInstance();
-    private AnswerDao answerDao = AnswerDao.getInstance();
+    private QuestionDao questionDao = JdbcQuestionDao.getInstance();
+    private AnswerDao answerDao = JdbcAnswerDao.getInstance();
+    private QnaService qnaService = QnaService.getInstance(questionDao, answerDao);
     
     @RequestMapping(value="/api/qna/addAnswer", method=RequestMethod.POST)
     public ModelAndView addAnswerApi(HttpServletRequest req, HttpServletResponse response) throws Exception {
