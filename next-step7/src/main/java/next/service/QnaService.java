@@ -18,7 +18,7 @@ public class QnaService {
     	this.answerDao = answerDao;
     }
 
-    public Question findById(long questionId) {
+    public Question findById(long questionId) { 
         return questionDao.findById(questionId);
     }
 
