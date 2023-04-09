@@ -8,7 +8,7 @@ import next.model.Question;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-public class MockQuestionDao implements QuestionDao {
+public class MockQuestionDao implements QuestionRepository {
     private Map<Long, Question> questions = Maps.newHashMap();
 
     @Override

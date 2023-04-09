@@ -6,15 +6,15 @@ import javax.servlet.http.HttpServletResponse;
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 import next.controller.UserSessionUtils;
-import next.dao.QuestionDao;
+import next.dao.QuestionRepository;
 import next.model.Question;
 import next.model.User;
 
 public class CreateQuestionController extends AbstractController {
-    private QuestionDao questionDao;
+    private QuestionRepository questionRepository;
 
-    public CreateQuestionController(QuestionDao questionDao) {
-        this.questionDao = questionDao;
+    public CreateQuestionController(QuestionRepository questionRepository) {
+        this.questionRepository = questionRepository;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class CreateQuestionController extends AbstractController {
         User user = UserSessionUtils.getUserFromSession(request.getSession());
         Question question = new Question(user.getUserId(), request.getParameter("title"),
                 request.getParameter("contents"));
-        questionDao.insert(question);
+        questionRepository.insert(question);
         return jspView("redirect:/");
     }
 

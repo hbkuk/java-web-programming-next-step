@@ -14,8 +14,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import next.CannotDeleteException;
-import next.dao.AnswerDao;
-import next.dao.QuestionDao;
+import next.dao.AnswerRepository;
+import next.dao.QuestionRepository;
 import next.model.Answer;
 import next.model.Question;
 import next.model.User;
@@ -23,20 +23,20 @@ import next.model.User;
 @RunWith(MockitoJUnitRunner.class)
 public class QnaServiceTest {
     @Mock
-    private QuestionDao questionDao;
+    private QuestionRepository questionRepository;
     @Mock
-    private AnswerDao answerDao;
+    private AnswerRepository answerRepository;
 
     private QnaService qnaService;
 
     @Before
     public void setup() {
-        qnaService = new QnaService(questionDao, answerDao);
+        qnaService = new QnaService(questionRepository, answerRepository);
     }
 
     @Test(expected = CannotDeleteException.class)
     public void deleteQuestion_없는_질문() throws Exception {
-        when(questionDao.findById(1L)).thenReturn(null);
+        when(questionRepository.findById(1L)).thenReturn(null);
 
         qnaService.deleteQuestion(1L, newUser("userId"));
     }
@@ -49,10 +49,10 @@ public class QnaServiceTest {
                 return true;
             };
         };
-        when(questionDao.findById(1L)).thenReturn(question);
+        when(questionRepository.findById(1L)).thenReturn(question);
 
         qnaService.deleteQuestion(1L, newUser("userId"));
-        verify(questionDao).delete(question.getQuestionId());
+        verify(questionRepository).delete(question.getQuestionId());
     }
 
     @Test(expected = CannotDeleteException.class)
@@ -63,7 +63,7 @@ public class QnaServiceTest {
                 throw new CannotDeleteException("삭제할 수 없음");
             };
         };
-        when(questionDao.findById(1L)).thenReturn(question);
+        when(questionRepository.findById(1L)).thenReturn(question);
 
         qnaService.deleteQuestion(1L, newUser("userId"));
     }

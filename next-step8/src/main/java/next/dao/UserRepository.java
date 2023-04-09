@@ -5,21 +5,20 @@ import java.sql.SQLException;
 import java.util.List;
 
 import next.model.User;
+import core.annotation.Repository;
 import core.jdbc.JdbcTemplate;
 import core.jdbc.RowMapper;
 
-public class UserDao {
-    private static UserDao userDao;
+@Repository
+public class UserRepository {
+    private static UserRepository userRepository;
     private JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
 
-    private UserDao() {
-    }
-
-    public static UserDao getInstance() {
-        if (userDao == null) {
-            userDao = new UserDao();
+    public static UserRepository getInstance() {
+        if (userRepository == null) {
+            userRepository = new UserRepository();
         }
-        return userDao;
+        return userRepository;
     }
 
     public void insert(User user) {

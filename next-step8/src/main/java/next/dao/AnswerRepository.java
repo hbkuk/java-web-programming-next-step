@@ -4,7 +4,7 @@ import java.util.List;
 
 import next.model.Answer;
 
-public interface AnswerDao {
+public interface AnswerRepository {
 
     Answer insert(Answer answer);
 

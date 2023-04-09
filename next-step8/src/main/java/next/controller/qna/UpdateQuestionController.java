@@ -6,14 +6,14 @@ import javax.servlet.http.HttpServletResponse;
 import core.mvc.AbstractController;
 import core.mvc.ModelAndView;
 import next.controller.UserSessionUtils;
-import next.dao.QuestionDao;
+import next.dao.QuestionRepository;
 import next.model.Question;
 
 public class UpdateQuestionController extends AbstractController {
-    private QuestionDao questionDao;
+    private QuestionRepository questionRepository;
 
-    public UpdateQuestionController(QuestionDao questionDao) {
-        this.questionDao = questionDao;
+    public UpdateQuestionController(QuestionRepository questionRepository) {
+        this.questionRepository = questionRepository;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class UpdateQuestionController extends AbstractController {
         }
 
         long questionId = Long.parseLong(req.getParameter("questionId"));
-        Question question = questionDao.findById(questionId);
+        Question question = questionRepository.findById(questionId);
         if (!question.isSameWriter(UserSessionUtils.getUserFromSession(req.getSession()))) {
             throw new IllegalStateException("다른 사용자가 쓴 글을 수정할 수 없습니다.");
         }
@@ -31,7 +31,7 @@ public class UpdateQuestionController extends AbstractController {
         Question newQuestion = new Question(question.getWriter(), req.getParameter("title"),
                 req.getParameter("contents"));
         question.update(newQuestion);
-        questionDao.update(question);
+        questionRepository.update(question);
         return jspView("redirect:/");
     }
 }

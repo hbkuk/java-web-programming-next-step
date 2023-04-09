@@ -22,10 +22,10 @@ public class UserDaoTest {
     @Test
     public void crud() throws Exception {
         User expected = new User("userId", "password", "name", "javajigi@email.com");
-        UserDao userDao = UserDao.getInstance();
-        userDao.insert(expected);
+        UserRepository userRepository = UserRepository.getInstance();
+        userRepository.insert(expected);
 
-        User actual = userDao.findByUserId(expected.getUserId());
+        User actual = userRepository.findByUserId(expected.getUserId());
         assertEquals(expected, actual);
     }
 

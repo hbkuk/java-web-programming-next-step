@@ -8,7 +8,7 @@ import next.model.Answer;
 
 import com.google.common.collect.Maps;
 
-public class MockAnswerDao implements AnswerDao {
+public class MockAnswerDao implements AnswerRepository {
     private Map<Long, Answer> answers = Maps.newHashMap();
 
     @Override
