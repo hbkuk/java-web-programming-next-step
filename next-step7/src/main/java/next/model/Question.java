@@ -71,7 +71,7 @@ public class Question {
     
     public boolean canDelete( User user, List<Answer> answers ) throws CannotDeleteException {
     	
-        if ( user.isSameUser(this.writer)) {
+        if ( !user.isSameUser(this.writer)) {
             throw new CannotDeleteException("다른 사용자가 쓴 글을 삭제할 수 없습니다.");
         }
 
